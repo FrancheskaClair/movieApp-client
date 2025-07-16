@@ -1,0 +1,36 @@
+/*CSS Reset Rule*/
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+	overflow: hidden;
+}
+/*Start of Navbar*/
+.navbar-transparent {
+  background-color: rgba(255, 255, 255, 0.2); 
+}
+
+/*End of Navbar*/
+
+
+/*Start of Landing*/
+#hero{
+  background-image: url('./images/tt.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 800px;
+}
+
+#heroTxt > h1{
+	font-size: 70px;
+  color: #292626;
+  font-weight: 600;
+}
+
+#heroTxt>p{
+  font-size: 18px;
+}
