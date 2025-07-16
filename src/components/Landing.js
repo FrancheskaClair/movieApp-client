@@ -5,8 +5,6 @@ import '../index.css';
 
 
 
-import { CircleArrowRight } from 'lucide-react';
-
 export default function Landing (){
 
 	return (
