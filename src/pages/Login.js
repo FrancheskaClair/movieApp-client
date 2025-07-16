@@ -92,7 +92,7 @@ export default function Login() {
     }, [email, password]);
 
     return (
-    		<div className="d-flex justify-content-center align-items-center mt-5">
+    		<div className="d-flex justify-content-center align-items-center my-5 pt-5" id="loginDiv">
 	        <Form onSubmit={(e) => authenticate(e)} id="login-form">
 	        	<h1 className="mb-5 text-center">Login</h1>
 	            <Form.Group controlId="userEmail" className="mb-2">

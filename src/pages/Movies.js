@@ -1,30 +1,30 @@
-// /src/pages/MoviesPage.js
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from 'react';
 import { Table, Button, Modal, Form, Card } from 'react-bootstrap';
+import UserContext from '../UserContext';
 
 const MoviesPage = () => {
-  const [user, setUser] = useState(null);
+  const { user } = useContext(UserContext);
+
   const [movies, setMovies] = useState([]);
   const [form, setForm] = useState({ title: '', director: '', year: '', description: '', genre: '' });
   const [editingId, setEditingId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState({});
+  const [showCommentsModal, setShowCommentsModal] = useState(false);
+  const [selectedMovie, setSelectedMovie] = useState(null);
+
   const token = localStorage.getItem('token');
 
-  const getUser = () => {
-    const data = JSON.parse(localStorage.getItem('user'));
-    setUser(data);
-  };
-
   const fetchMovies = () => {
-    fetch('http://localhost:4000/movies/getMovies', { headers: { Authorization: `Bearer ${token}` } })
-     .then(res => {
-    console.log('Response status:', res.status);
-    return res.json();
-  })
-      .then(data => setMovies(data.movies || []));
+    fetch('http://localhost:4000/movies/getMovies', {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(res => res.json())
+      .then(data => {
+        setMovies(data.movies || []);
+        (data.movies || []).forEach(movie => fetchComments(movie._id));
+      });
   };
 
   const fetchComments = (movieId) => {
@@ -32,11 +32,15 @@ const MoviesPage = () => {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())
-      .then(data => setComments(prev => ({ ...prev, [movieId]: data.comments })));
+      .then(data => {
+        setComments(prev => ({ ...prev, [movieId]: data.comments }));
+      });
   };
 
   const handleFormSubmit = () => {
-    const url = editingId ? `http://localhost:4000/movies/updateMovie/${editingId}` : 'http://localhost:4000/movies/addMovie';
+    const url = editingId
+      ? `http://localhost:4000/movies/updateMovie/${editingId}`
+      : 'http://localhost:4000/movies/addMovie';
     const method = editingId ? 'PATCH' : 'POST';
 
     fetch(url, {
@@ -82,18 +86,24 @@ const MoviesPage = () => {
   };
 
   useEffect(() => {
-    getUser();
     fetchMovies();
   }, []);
+
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleString(); // Customize if needed
+  };
 
   if (!user) return null;
 
   return (
-    <div className="container mt-5 pt-5">
+    <div className="container my-5 py-5">
       {user.isAdmin ? (
         <>
-          <h2>🎬 Admin Dashboard</h2>
-          <Button className="mb-3" onClick={() => setShowModal(true)}>Add Movie</Button>
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <h2 className="mb-0">Admin Dashboard</h2>
+            <Button onClick={() => setShowModal(true)}>Add Movie</Button>
+          </div>
 
           <Table striped bordered hover>
             <thead>
@@ -128,7 +138,7 @@ const MoviesPage = () => {
         </>
       ) : (
         <>
-          <h2>📽 Available Movies</h2>
+          <h2 className="mb-3">Uncover Your Next Favorite Film</h2>
           {movies.map(movie => (
             <Card className="mb-3" key={movie._id}>
               <Card.Body>
@@ -137,25 +147,23 @@ const MoviesPage = () => {
                 <Card.Text>{movie.description}</Card.Text>
                 <Card.Text><strong>Genre:</strong> {movie.genre}</Card.Text>
 
-                <Form className="mt-3">
-                  <Form.Control
-                    type="text"
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                    placeholder="Add comment"
-                  />
-                  <Button className="mt-2" size="sm" onClick={() => submitComment(movie._id)}>Submit</Button>
-                </Form>
-
-                <ul className="mt-3">
-                  {(comments[movie._id] || []).map((c, i) => <li key={i}>{c.comment}</li>)}
-                </ul>
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setSelectedMovie(movie);
+                    setShowCommentsModal(true);
+                  }}
+                >
+                  Comments
+                </a>
               </Card.Body>
             </Card>
           ))}
         </>
       )}
 
+      {/* Add/Edit Movie Modal */}
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>{editingId ? 'Edit Movie' : 'Add Movie'}</Modal.Title>
@@ -179,9 +187,42 @@ const MoviesPage = () => {
           <Button variant="primary" onClick={handleFormSubmit}>{editingId ? 'Update' : 'Add'}</Button>
         </Modal.Footer>
       </Modal>
+
+      {/* Comments Modal */}
+      <Modal show={showCommentsModal} onHide={() => setShowCommentsModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Comments for {selectedMovie?.title}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <ul className="mb-3 list-unstyled">
+          {(comments[selectedMovie?._id] || []).map((c, i) => (
+            <li key={i}>
+              <strong>{c.username || 'Anonymous'}:</strong> {c.comment}
+              <br />
+            </li>
+          ))}
+        </ul>
+
+          <Form>
+            <Form.Control
+              type="text"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Add comment"
+            />
+            <Button
+              className="mt-2"
+              size="sm"
+              onClick={() => submitComment(selectedMovie._id)}
+              disabled={!comment.trim()}
+            >
+              Submit
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
 
 export default MoviesPage;
-

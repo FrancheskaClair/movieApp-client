@@ -80,7 +80,7 @@ export default function Register() {
 	},[email,password,confirmPassword])
 
 	return (
-			<div className="d-flex justify-content-center align-items-center mt-5">
+			<div className="d-flex justify-content-center align-items-center my-5 pt-5">
 			<Form onSubmit={(e) => registerUser(e)} id="sign-form">
 			<h1 className="mb-5 text-center">Sign Up</h1>
 

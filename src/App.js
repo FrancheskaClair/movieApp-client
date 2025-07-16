@@ -60,7 +60,7 @@ function App() {
     <UserProvider value={{user, setUser, unsetUser}}>
       <Router>
         <Navbar />
-      {/*  <Container>*/}
+     
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />
@@ -68,8 +68,8 @@ function App() {
             <Route path="/logout" element={<Logout />} />
            <Route path="/movies" element={<Movies />} />
           </Routes>
-       {/* </Container>*/}
-        {/*<Footer/>*/}
+     
+        <Footer/>
       </Router>
     </UserProvider>
   );

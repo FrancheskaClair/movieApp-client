@@ -11,45 +11,57 @@ export default function Footer(){
 	return(
 
 <footer className="footer-bg pt-5">
-  <Container>
+  <Container fluid>
 
-    <Row className="pt-5 px-5 align-items-center justify-content-between">
-      <Col md="auto">
-        <h6 className="fw-bold text-muted m-0">WellSync</h6>
-      </Col>
+    <Row className="pt-1 px-5">
 
-      <Col md="auto">
-        <div className="d-flex gap-4">
-          <Link to="/" className="text-decoration-none text-muted">Home</Link>
-          <Link to="/about" className="text-decoration-none text-muted">About Us</Link>
-          <Link to="/login" className="text-decoration-none text-muted">Login</Link>
-          <Link to="/login" className="text-decoration-none text-muted">Sign Up</Link>
-        </div>
-      </Col>
-    </Row>
+      <Col md={3} className="me-5 pe-5 ms-5">
+      <h5>CineAtlas</h5>
+      <p className="text-light">A film discovery platform where every movie sparks a conversation.</p>
+    </Col>
 
-    <hr className="mx-5" />
+    <Col>
+    <h5>Company</h5>
+    <div className="d-flex flex-column gap-2 mb-2">
+      <Link to="/" className="text-decoration-none text-light">About Us</Link>
+      <Link to="/" className="text-decoration-none text-light">Contact Us</Link>
+      <Link to="/" className="text-decoration-none text-light">Terms and Conditions</Link>
+    </div>
+  </Col>
 
-    <Row className="px-5 pb-4 align-items-center justify-content-between">
-      
-      <Col md="auto" className="d-flex gap-3">
-        <Link to="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">
-          <i className="fa-brands fa-facebook text-muted"></i>
-        </Link>
-        <Link to="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
-          <i className="fa-brands fa-square-instagram text-muted"></i>
-        </Link>
-        <Link to="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">
-          <i className="fa-brands fa-youtube text-muted"></i>
-        </Link>
-      </Col>
+  <Col>
+  <h5 className="mb-2">Account</h5>
+  <div className="d-flex flex-column gap-2">
+    <Link to="/" className="text-decoration-none text-light">Home</Link>
+    <Link to="/" className="text-decoration-none text-light">Login</Link>
+    <Link to="/" className="text-decoration-none text-light">Sign Up</Link>
+  </div>
+</Col>
 
-      <Col md="auto">
-        <p className="text-muted m-0">&#169; WellSync 2025 | All rights reserved.</p>
-      </Col>
-    </Row>
 
-  </Container>
+<Col>
+<h5>Service</h5>
+<div className="d-flex flex-column gap-2">
+  <Link to="/" className="text-decoration-none text-light">Customer</Link>
+  <Link to="/" className="text-decoration-none text-light">Support</Link>
+  <Link to="/" className="text-decoration-none text-light">Privacy and Policy</Link>
+</div>
+</Col>
+
+<hr className="mt-3" />
+
+</Row>
+
+<Row className="px-5">
+  <Col>
+  <p className="text-light text-center">&#169; CineAtlas 2025. All rights reserved.</p>
+
+
+</Col>
+
+
+</Row>
+</Container>
 </footer>
 
 
