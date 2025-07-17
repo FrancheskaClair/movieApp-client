@@ -17,7 +17,7 @@ const MoviesPage = () => {
   const token = localStorage.getItem('token');
 
   const fetchMovies = () => {
-    fetch('http://localhost:4000/movies/getMovies', {
+    fetch('https://movieapi-salvador.onrender.com/movies/getMovies', {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())
@@ -28,7 +28,7 @@ const MoviesPage = () => {
   };
 
   const fetchComments = (movieId) => {
-    fetch(`http://localhost:4000/movies/getComments/${movieId}`, {
+    fetch(`https://movieapi-salvador.onrender.com/movies/getComments/${movieId}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())
@@ -39,8 +39,8 @@ const MoviesPage = () => {
 
   const handleFormSubmit = () => {
     const url = editingId
-      ? `http://localhost:4000/movies/updateMovie/${editingId}`
-      : 'http://localhost:4000/movies/addMovie';
+      ? `https://movieapi-salvador.onrender.com/movies/updateMovie/${editingId}`
+      : 'https://movieapi-salvador.onrender.com/movies/addMovie';
     const method = editingId ? 'PATCH' : 'POST';
 
     fetch(url, {
@@ -61,7 +61,7 @@ const MoviesPage = () => {
   };
 
   const deleteMovie = (id) => {
-    fetch(`http://localhost:4000/movies/deleteMovie/${id}`, {
+    fetch(`https://movieapi-salvador.onrender.com/movies/deleteMovie/${id}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -70,7 +70,7 @@ const MoviesPage = () => {
   };
 
   const submitComment = (movieId) => {
-    fetch(`http://localhost:4000/movies/addComment/${movieId}`, {
+    fetch(`https://movieapi-salvador.onrender.com/movies/addComment/${movieId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ const MoviesPage = () => {
 
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
-    return date.toLocaleString(); // Customize if needed
+    return date.toLocaleString(); 
   };
 
   if (!user) return null;

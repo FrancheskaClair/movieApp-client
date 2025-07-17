@@ -30,7 +30,7 @@ export default function Register() {
 
 		e.preventDefault();
 
-		fetch('http://localhost:4000/users/register',{
+		fetch('https://movieapi-salvador.onrender.com/users/register',{
 
             method: 'POST',
             headers: {

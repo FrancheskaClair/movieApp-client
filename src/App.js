@@ -26,7 +26,7 @@ function App() {
     localStorage.clear();
   };
   useEffect(()=> {
-      fetch('http://localhost:4000/users/details', {
+      fetch('https://movieapi-salvador.onrender.com/users/details', {
         headers : {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }

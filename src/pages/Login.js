@@ -13,7 +13,7 @@ export default function Login() {
 	const notyf = new Notyf(); 
     const navigate = useNavigate()
 
-	const { user, setUser } = useContext(UserContext);
+	const { setUser } = useContext(UserContext);
 
 	const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -24,7 +24,7 @@ export default function Login() {
     function authenticate(e) {
 
         e.preventDefault();
-		fetch('http://localhost:4000/users/login',{
+		fetch('https://movieapi-salvador.onrender.com/users/login',{
 
 		method: 'POST',
 		headers: {
@@ -66,7 +66,7 @@ export default function Login() {
 
     const retrieveUserDetails = (token) => {
 
-        fetch('http://localhost:4000/users/details', {
+        fetch('https://movieapi-salvador.onrender.com/users/details', {
             headers: {
                 Authorization: `Bearer ${ token }`
             }
@@ -76,6 +76,7 @@ export default function Login() {
 
             setUser({
               id: data.user._id,
+              isAdmin: data.user.isAdmin
             });
 
         })
